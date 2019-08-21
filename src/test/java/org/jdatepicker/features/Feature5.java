@@ -27,7 +27,7 @@ public class Feature5 {
         // Locale.setDefault(Locale.US);
 
         // SIMPLIFIED_CHINESE: ???
-        //Locale.setDefault(Locale.SIMPLIFIED_CHINESE);
+//        Locale.setDefault(Locale.SIMPLIFIED_CHINESE);
 
         // JAPAN
         // Locale.setDefault(Locale.JAPAN);
@@ -36,7 +36,7 @@ public class Feature5 {
         // Locale.setDefault(Locale.KOREAN);
 
         // RUSSIAN
-        Locale.setDefault(new Locale("ru"));
+        Locale.setDefault(Locale.US);
 
         // Create a frame
         final JFrame frame = new JFrame();

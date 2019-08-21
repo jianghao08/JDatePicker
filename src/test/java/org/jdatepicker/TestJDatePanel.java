@@ -40,7 +40,7 @@ public class TestJDatePanel {
         panel.setShowYearButtons(false);
         panel.setShowYearButtons(true);
 
-        testFrame.setSize(300, 300);
+        testFrame.setSize(800, 500);
         testFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         testFrame.setVisible(true);
     }

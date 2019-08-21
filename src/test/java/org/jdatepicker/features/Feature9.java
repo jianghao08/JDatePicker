@@ -29,7 +29,7 @@ public class Feature9 {
 
         // Create the JDatePanel
         final JDatePanel datePanel = new JDatePanel();
-        datePanel.setEnabled(false);
+        datePanel.setEnabled(true);
         panel.add(datePanel);
 
         // Create the JDatePicker

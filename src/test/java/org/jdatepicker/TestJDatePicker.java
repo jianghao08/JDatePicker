@@ -37,20 +37,26 @@ public class TestJDatePicker {
             UIManager.setLookAndFeel("com.sun.java.swing.plaf.windows.WindowsLookAndFeel");
         } catch (Exception e) {
         }
+        final ComponentTextDefaults defaults = ComponentTextDefaults.getInstance();
+        defaults.setText(ComponentTextDefaults.Key.SUN, "日");
+        defaults.setText(ComponentTextDefaults.Key.MON, "一");
+        defaults.setText(ComponentTextDefaults.Key.TUE, "二");
+        defaults.setText(ComponentTextDefaults.Key.WED, "三");
+        defaults.setText(ComponentTextDefaults.Key.THU, "四");
+        defaults.setText(ComponentTextDefaults.Key.FRI, "五");
+        defaults.setText(ComponentTextDefaults.Key.SAT, "六");
         JFrame testFrame = new JFrame();
         testFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
-        testFrame.setSize(500, 500);
+        testFrame.setSize(800, 700);
         JPanel jPanel = new JPanel();
-        DatePicker picker = new JDatePicker();
-        picker.setTextEditable(true);
-        picker.setShowYearButtons(true);
-        jPanel.add((JComponent) picker);
-        JPanel DatePanel = new JPanel();
-        DatePanel.setLayout(new BorderLayout());
-        DatePanel.add(jPanel, BorderLayout.WEST);
-        BorderLayout fb = new BorderLayout();
-        testFrame.setLayout(fb);
-        testFrame.getContentPane().add(DatePanel, BorderLayout.WEST);
+        JDatePicker picker = new JDatePicker();
+        picker.setTextEditable(false);
+        picker.setShowYearButtons(false);
+        picker.setTextfieldColumns(105);
+        jPanel.add(picker);
+        testFrame.setLayout(null);
+        jPanel.setBounds(0, 0, 800, 600);
+        testFrame.getContentPane().add(jPanel);
         testFrame.setVisible(true);
     }
 

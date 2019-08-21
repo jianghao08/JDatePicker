@@ -30,6 +30,7 @@ package org.jdatepicker;
 import org.jdatepicker.constraints.DateSelectionConstraint;
 
 import javax.swing.*;
+import javax.swing.border.Border;
 import javax.swing.event.ChangeEvent;
 import javax.swing.event.ChangeListener;
 import java.awt.*;
@@ -406,5 +407,20 @@ public class JDatePicker extends JComponent implements DatePicker {
         }
 
     }
+
+	@Override
+	public void setOpaque(boolean isOpaque) {
+		formattedTextField.setOpaque(isOpaque);
+	}
+
+	@Override
+	public void setBorder(Border border) {
+		formattedTextField.setBorder(border);
+	}
+	
+	@Override
+	public void setFont(Font font) {
+		formattedTextField.setFont(font);
+	}
 
 }
