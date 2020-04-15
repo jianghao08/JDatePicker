@@ -107,6 +107,10 @@ public class JDatePicker extends JComponent implements DatePicker {
     public JDatePicker(DateModel<?> model) {
         this(new JDatePanel(model));
     }
+    
+    public JDatePicker(DateModel<?> model, int width, int height) {
+    	this(new JDatePanel(model, width, height));
+    }
 
 
     /**
@@ -117,7 +121,6 @@ public class JDatePicker extends JComponent implements DatePicker {
      */
     private JDatePicker(JDatePanel datePanel) {
         this.datePanel = datePanel;
-
         //Initialise Variables
         popup = null;
         datePanel.setBorder(BorderFactory.createLineBorder(getColors().getColor(ComponentColorDefaults.Key.POPUP_BORDER)));
@@ -421,6 +424,14 @@ public class JDatePicker extends JComponent implements DatePicker {
 	@Override
 	public void setFont(Font font) {
 		formattedTextField.setFont(font);
+	}
+	
+	public void setColor(Color color) {
+		formattedTextField.setForeground(color);
+	}
+	
+	public void setAlign(int alignment) {
+		formattedTextField.setHorizontalAlignment(alignment);
 	}
 
 }

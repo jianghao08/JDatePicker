@@ -128,6 +128,23 @@ public class JDatePanel extends JComponent implements DatePanel {
         setLayout(new GridLayout(1, 1));
         add(internalView);
     }
+    
+    public JDatePanel(DateModel<?> model, int width, int height) {
+    	actionListeners = new HashSet<ActionListener>();
+    	dateConstraints = new HashSet<DateSelectionConstraint>();
+    	
+    	showYearButtons = false;
+    	doubleClickAction = false;
+    	firstDayOfWeek = Calendar.getInstance().getFirstDayOfWeek();
+    	
+    	internalModel = new InternalCalendarModel(model);
+    	internalController = new InternalController();
+    	internalView = new InternalView();
+    	internalView.setSize(width, height);
+    	internalView.setPreferredSize(new Dimension(width, height));
+    	setLayout(new GridLayout(1, 1));
+    	add(internalView);
+    }
 
     public static DateModel<Calendar> createModel() {
         return new UtilCalendarModel();
@@ -1119,5 +1136,9 @@ public class JDatePanel extends JComponent implements DatePanel {
         }
 
     }
+
+	public InternalView getInternalView() {
+		return internalView;
+	}
 
 }

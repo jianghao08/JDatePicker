@@ -1,5 +1,6 @@
 package org.jdatepicker.issues;
 
+import org.jdatepicker.JDatePanel;
 import org.jdatepicker.JDatePicker;
 
 import javax.swing.*;
@@ -34,7 +35,6 @@ public class Issue19 extends JFrame {
         // set size for elements
         picker.setPreferredSize(new Dimension(350, 30));
         right.setPreferredSize(new Dimension(100, 30));
-
         // add all elements to frame
         cont.add(picker);
         cont.add(right);
