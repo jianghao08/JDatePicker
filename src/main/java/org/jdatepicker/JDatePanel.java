@@ -285,6 +285,8 @@ public class JDatePanel extends JComponent implements DatePanel {
     private class InternalView extends JPanel {
 
         private static final long serialVersionUID = -6844493839307157682L;
+        private static final int BUTTON_WIDTH = 50;
+        private static final int BUTTON_HEIGHT = 40;
 
         private JPanel centerPanel;
         private JPanel northCenterPanel;
@@ -296,6 +298,7 @@ public class JDatePanel extends JComponent implements DatePanel {
         private JTableHeader dayTableHeader;
         private InternalTableCellRenderer dayTableCellRenderer;
         private JLabel monthLabel;
+        private JLabel yearLabel;
         private JLabel todayLabel;
         private JLabel noneLabel;
         private JPopupMenu monthPopupMenu;
@@ -326,6 +329,10 @@ public class JDatePanel extends JComponent implements DatePanel {
          */
         private void updateMonthLabel() {
             monthLabel.setText(getTexts().getText(ComponentTextDefaults.Key.getMonthKey(internalModel.getModel().getMonth())));
+        }
+        
+        private void updateYearLabel() {
+        	yearLabel.setText(internalModel.getModel().getYear() + getTexts().getText(ComponentTextDefaults.Key.YEAR));
         }
 
         public InternalView() {
@@ -372,11 +379,12 @@ public class JDatePanel extends JComponent implements DatePanel {
         private JPanel getNorthCenterPanel() {
             if (northCenterPanel == null) {
                 northCenterPanel = new javax.swing.JPanel();
-                northCenterPanel.setLayout(new java.awt.BorderLayout());
+                northCenterPanel.setLayout(new java.awt.FlowLayout());
                 northCenterPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
                 northCenterPanel.setOpaque(false);
-                northCenterPanel.add(getMonthLabel(), java.awt.BorderLayout.CENTER);
-                northCenterPanel.add(getYearSpinner(), java.awt.BorderLayout.EAST);
+                northCenterPanel.add(getYearLabel(), java.awt.BorderLayout.CENTER);
+                northCenterPanel.add(getMonthLabel(), java.awt.BorderLayout.EAST);
+//                northCenterPanel.add(getYearSpinner(), java.awt.BorderLayout.EAST);
             }
             return northCenterPanel;
         }
@@ -395,6 +403,17 @@ public class JDatePanel extends JComponent implements DatePanel {
                 updateMonthLabel();
             }
             return monthLabel;
+        }
+        
+        private JLabel getYearLabel() {
+        	if (yearLabel == null) {
+        		yearLabel = new javax.swing.JLabel();
+        		yearLabel.setForeground(getColors().getColor(ComponentColorDefaults.Key.FG_MONTH_SELECTOR));
+        		yearLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+//        		yearLabel.addMouseListener(internalController);
+        		updateYearLabel();
+        	}
+        	return yearLabel;
         }
 
         /**
@@ -611,7 +630,7 @@ public class JDatePanel extends JComponent implements DatePanel {
                 nextMonthButton.setIcon(getIcons().getNextMonthIconEnabled());
                 nextMonthButton.setDisabledIcon(getIcons().getNextMonthIconDisabled());
                 nextMonthButton.setText("");
-                nextMonthButton.setPreferredSize(new java.awt.Dimension(20, 15));
+                nextMonthButton.setPreferredSize(new java.awt.Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
                 nextMonthButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
                 nextMonthButton.setFocusable(false);
                 nextMonthButton.setOpaque(true);
@@ -632,7 +651,7 @@ public class JDatePanel extends JComponent implements DatePanel {
                 nextYearButton.setIcon(getIcons().getNextYearIconEnabled());
                 nextYearButton.setDisabledIcon(getIcons().getNextYearIconDisabled());
                 nextYearButton.setText("");
-                nextYearButton.setPreferredSize(new java.awt.Dimension(20, 15));
+                nextYearButton.setPreferredSize(new java.awt.Dimension(BUTTON_HEIGHT, BUTTON_HEIGHT));
                 nextYearButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
                 nextYearButton.setFocusable(false);
                 nextYearButton.setOpaque(true);
@@ -653,7 +672,7 @@ public class JDatePanel extends JComponent implements DatePanel {
                 previousMonthButton.setIcon(getIcons().getPreviousMonthIconEnabled());
                 previousMonthButton.setDisabledIcon(getIcons().getPreviousMonthIconDisabled());
                 previousMonthButton.setText("");
-                previousMonthButton.setPreferredSize(new java.awt.Dimension(20, 15));
+                previousMonthButton.setPreferredSize(new java.awt.Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
                 previousMonthButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
                 previousMonthButton.setFocusable(false);
                 previousMonthButton.setOpaque(true);
@@ -674,7 +693,7 @@ public class JDatePanel extends JComponent implements DatePanel {
                 previousYearButton.setIcon(getIcons().getPreviousYearIconEnabled());
                 previousYearButton.setDisabledIcon(getIcons().getPreviousYearIconDisabled());
                 previousYearButton.setText("");
-                previousYearButton.setPreferredSize(new java.awt.Dimension(20, 15));
+                previousYearButton.setPreferredSize(new java.awt.Dimension(BUTTON_WIDTH, BUTTON_HEIGHT));
                 previousYearButton.setBorder(javax.swing.BorderFactory.createBevelBorder(javax.swing.border.BevelBorder.RAISED));
                 previousYearButton.setFocusable(false);
                 previousYearButton.setOpaque(true);
@@ -1115,9 +1134,10 @@ public class JDatePanel extends JComponent implements DatePanel {
          */
         private void fireValueChanged() {
             //Update year spinner
-            for (ChangeListener cl : spinnerChangeListeners) {
-                cl.stateChanged(new ChangeEvent(this));
-            }
+        	internalView.updateYearLabel();
+//            for (ChangeListener cl : spinnerChangeListeners) {
+//                cl.stateChanged(new ChangeEvent(this));
+//            }
 
             //Update month label
             internalView.updateMonthLabel();
