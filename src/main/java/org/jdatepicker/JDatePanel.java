@@ -287,6 +287,8 @@ public class JDatePanel extends JComponent implements DatePanel {
         private static final long serialVersionUID = -6844493839307157682L;
         private static final int BUTTON_WIDTH = 50;
         private static final int BUTTON_HEIGHT = 40;
+        
+        private final Font labelFont = new Font("微软雅黑", Font.PLAIN, 18);
 
         private JPanel centerPanel;
         private JPanel northCenterPanel;
@@ -379,11 +381,34 @@ public class JDatePanel extends JComponent implements DatePanel {
         private JPanel getNorthCenterPanel() {
             if (northCenterPanel == null) {
                 northCenterPanel = new javax.swing.JPanel();
-                northCenterPanel.setLayout(new java.awt.FlowLayout());
+				GridBagLayout gridBagLayout = new GridBagLayout();
+				GridBagConstraints constraints = new GridBagConstraints();
+//				constraints.fill = GridBagConstraints.BOTH;
+//				constraints.weightx = 0.01;
+//				constraints.weighty = 100;
+                northCenterPanel.setLayout(gridBagLayout);
                 northCenterPanel.setBorder(javax.swing.BorderFactory.createEmptyBorder(0, 5, 0, 5));
                 northCenterPanel.setOpaque(false);
-                northCenterPanel.add(getYearLabel(), java.awt.BorderLayout.CENTER);
-                northCenterPanel.add(getMonthLabel(), java.awt.BorderLayout.EAST);
+				constraints.gridx = 1;
+				constraints.gridy = 1;
+				constraints.gridwidth = 1;
+				constraints.gridheight = 1;
+				gridBagLayout.setConstraints(getYearLabel(), constraints);
+				JLabel padding = new JLabel(" ");
+				padding.setFont(labelFont);
+				constraints.gridx = 2;
+				constraints.gridy = 1;
+				constraints.gridwidth = 1;
+				constraints.gridheight = 1;
+				gridBagLayout.setConstraints(padding, constraints);
+				constraints.gridx = 3;
+				constraints.gridy = 1;
+				constraints.gridwidth = 1;
+				constraints.gridheight = 1;
+				gridBagLayout.setConstraints(getMonthLabel(), constraints);
+                northCenterPanel.add(getYearLabel());
+                northCenterPanel.add(padding);
+                northCenterPanel.add(getMonthLabel());
 //                northCenterPanel.add(getYearSpinner(), java.awt.BorderLayout.EAST);
             }
             return northCenterPanel;
@@ -398,8 +423,9 @@ public class JDatePanel extends JComponent implements DatePanel {
             if (monthLabel == null) {
                 monthLabel = new javax.swing.JLabel();
                 monthLabel.setForeground(getColors().getColor(ComponentColorDefaults.Key.FG_MONTH_SELECTOR));
-                monthLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
+                monthLabel.setHorizontalAlignment(javax.swing.SwingConstants.LEFT);
                 monthLabel.addMouseListener(internalController);
+                monthLabel.setFont(labelFont);
                 updateMonthLabel();
             }
             return monthLabel;
@@ -409,8 +435,9 @@ public class JDatePanel extends JComponent implements DatePanel {
         	if (yearLabel == null) {
         		yearLabel = new javax.swing.JLabel();
         		yearLabel.setForeground(getColors().getColor(ComponentColorDefaults.Key.FG_MONTH_SELECTOR));
-        		yearLabel.setHorizontalAlignment(javax.swing.SwingConstants.CENTER);
-//        		yearLabel.addMouseListener(internalController);
+        		yearLabel.setHorizontalAlignment(javax.swing.SwingConstants.RIGHT);
+//        		yearLabel.setVerticalAlignment(SwingConstants.CENTER);
+        		yearLabel.setFont(labelFont);
         		updateYearLabel();
         	}
         	return yearLabel;
