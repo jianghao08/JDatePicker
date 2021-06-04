@@ -548,6 +548,7 @@ public class JDatePanel extends JComponent implements DatePanel {
                 dayTable.setCellSelectionEnabled(true);
                 dayTable.setRowSelectionAllowed(true);
                 dayTable.setFocusable(false);
+                dayTable.setFont(labelFont);
                 dayTable.addMouseListener(internalController);
                 for (int i = 0; i < 7; i++) {
                     TableColumn column = dayTable.getColumnModel().getColumn(i);
@@ -789,7 +790,13 @@ public class JDatePanel extends JComponent implements DatePanel {
      */
     private class InternalTableCellRenderer extends DefaultTableCellRenderer {
 
-        private static final long serialVersionUID = -2341614459632756921L;
+        @Override
+		protected void setValue(Object value) {
+    		setFont(new Font("微软雅黑", Font.PLAIN, 24));
+			super.setValue(value);
+		}
+
+		private static final long serialVersionUID = -2341614459632756921L;
 
         public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
             // Exit this method if the value is null, encountered from JTable#AccessibleJTable
