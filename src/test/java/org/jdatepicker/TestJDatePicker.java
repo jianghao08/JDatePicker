@@ -38,6 +38,8 @@ public class TestJDatePicker {
         } catch (Exception e) {
         }
         final ComponentTextDefaults defaults = ComponentTextDefaults.getInstance();
+        var icon = new ImageIcon("D:\\Program Files (x86)\\Tencent\\WeChat\\Files\\WeChat Files\\jianghao08\\FileStorage\\File\\2023-11\\数字一体化手术室切图_20231115\\术后\\手术资料\\手术资料_搜索_手术日期_normal.png");
+        ComponentIconDefaults.getInstance().setPopupButtonIcon(icon);
         defaults.setText(ComponentTextDefaults.Key.SUN, "日");
         defaults.setText(ComponentTextDefaults.Key.MON, "一");
         defaults.setText(ComponentTextDefaults.Key.TUE, "二");
@@ -48,12 +50,19 @@ public class TestJDatePicker {
         JFrame testFrame = new JFrame();
         testFrame.setDefaultCloseOperation(WindowConstants.DISPOSE_ON_CLOSE);
         testFrame.setSize(800, 700);
-        JPanel jPanel = new JPanel();
-        JDatePicker picker = new JDatePicker();
+        JPanel jPanel = new JPanel(null);
+        JDatePicker picker = new JDatePicker(new JDatePickerStringDataModel(), 426, 300, null);
+//        picker.setOpaque(false);
+        picker.setBorder(null);
+        picker.setBounds(100, 50, 156, 27);
+        picker.setFont(new Font("宋体", Font.PLAIN, 18));
+        picker.setShowYearButtons(true);
+
         picker.setTextEditable(false);
         picker.setShowYearButtons(false);
-        picker.setTextfieldColumns(105);
+//        picker.setTextfieldColumns(105);
         jPanel.add(picker);
+        jPanel.setBackground(Color.WHITE);
         testFrame.setLayout(null);
         jPanel.setBounds(0, 0, 800, 600);
         testFrame.getContentPane().add(jPanel);

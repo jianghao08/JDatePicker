@@ -62,14 +62,13 @@ public class JDatePicker extends JComponent implements DatePicker {
     private Popup popup;
     private JFormattedTextField formattedTextField;
     private JButton button;
-
     private JDatePanel datePanel;
 
     /**
      * Create a JDatePicker with a default calendar model.
      */
     public JDatePicker() {
-        this(new JDatePanel());
+        this(new JDatePanel(), null);
     }
 
     /**
@@ -78,7 +77,7 @@ public class JDatePicker extends JComponent implements DatePicker {
      * @param value the initial value
      */
     public JDatePicker(Calendar value) {
-        this(new JDatePanel(value));
+        this(new JDatePanel(value), null);
     }
 
     /**
@@ -87,7 +86,7 @@ public class JDatePicker extends JComponent implements DatePicker {
      * @param value the initial value
      */
     public JDatePicker(java.util.Date value) {
-        this(new JDatePanel(value));
+        this(new JDatePanel(value), null);
     }
 
     /**
@@ -96,7 +95,7 @@ public class JDatePicker extends JComponent implements DatePicker {
      * @param value the initial value
      */
     public JDatePicker(java.sql.Date value) {
-        this(new JDatePanel(value));
+        this(new JDatePanel(value), null);
     }
 
     /**
@@ -105,11 +104,11 @@ public class JDatePicker extends JComponent implements DatePicker {
      * @param model a custom date model
      */
     public JDatePicker(DateModel<?> model) {
-        this(new JDatePanel(model));
+        this(new JDatePanel(model), null);
     }
     
-    public JDatePicker(DateModel<?> model, int width, int height) {
-    	this(new JDatePanel(model, width, height));
+    public JDatePicker(DateModel<?> model, int width, int height, String iconPath) {
+    	this(new JDatePanel(model, width, height), iconPath);
     }
 
 
@@ -119,7 +118,7 @@ public class JDatePicker extends JComponent implements DatePicker {
      *
      * @param datePanel The DatePanel to use
      */
-    private JDatePicker(JDatePanel datePanel) {
+    private JDatePicker(JDatePanel datePanel, String iconPath) {
         this.datePanel = datePanel;
         //Initialise Variables
         popup = null;
@@ -143,7 +142,7 @@ public class JDatePicker extends JComponent implements DatePicker {
         //Add and Configure Button
         button = new JButton();
         button.setFocusable(true);
-        Icon icon = ComponentIconDefaults.getInstance().getPopupButtonIcon();
+        Icon icon = iconPath != null ? new ImageIcon(iconPath) : ComponentIconDefaults.getInstance().getPopupButtonIcon();
         button.setIcon(icon);
         if (icon == null) {
             // reset to caption
@@ -153,16 +152,21 @@ public class JDatePicker extends JComponent implements DatePicker {
             button.setText("");
         }
         add(button);
-        layout.putConstraint(SpringLayout.WEST, button, 1, SpringLayout.EAST, formattedTextField);
+        layout.putConstraint(SpringLayout.WEST, button, 0, SpringLayout.EAST, formattedTextField);
         layout.putConstraint(SpringLayout.EAST, this, 0, SpringLayout.EAST, button);
         layout.putConstraint(SpringLayout.SOUTH, this, 0, SpringLayout.SOUTH, button);
 
         //Do layout formatting
-        int h = (int) button.getPreferredSize().getHeight();
-        int w = (int) datePanel.getPreferredSize().getWidth();
-        button.setPreferredSize(new Dimension(h, h));
-        formattedTextField.setPreferredSize(new Dimension(w - h - 1, h));
-
+        if (iconPath != null) {
+            button.setPreferredSize(new Dimension(icon.getIconWidth(), icon.getIconHeight()));
+            button.setOpaque(false);
+            setOpaque(false);
+        } else {
+            int h = (int) button.getPreferredSize().getHeight();
+            int w = (int) datePanel.getPreferredSize().getWidth();
+            button.setPreferredSize(new Dimension(h, h));
+            formattedTextField.setPreferredSize(new Dimension(w, h));
+        }
         //Add event listeners
         addHierarchyBoundsListener(internalEventHandler);
 //TODO        addAncestorListener(listener)
@@ -233,7 +237,12 @@ public class JDatePicker extends JComponent implements DatePicker {
             PopupFactory fac = new PopupFactory();
             Point xy = getLocationOnScreen();
             datePanel.setVisible(true);
-            popup = fac.getPopup(this, datePanel, (int) xy.getX(), (int) (xy.getY() + this.getHeight()));
+            if (xy.getX() + datePanel.getPreferredSize().getWidth() > 1920) {
+                int offset = (int) (xy.getX() + datePanel.getPreferredSize().getWidth() - 1920);
+                popup = fac.getPopup(this, datePanel, (int) xy.getX() - offset, (int) (xy.getY() + getHeight()));
+            } else {
+                popup = fac.getPopup(this, datePanel, (int) xy.getX(), (int) (xy.getY() + getHeight()));
+            }
             popup.show();
         }
     }
@@ -433,5 +442,4 @@ public class JDatePicker extends JComponent implements DatePicker {
 	public void setAlign(int alignment) {
 		formattedTextField.setHorizontalAlignment(alignment);
 	}
-
 }
